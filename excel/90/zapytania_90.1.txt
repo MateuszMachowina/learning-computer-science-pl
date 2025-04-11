@@ -1,0 +1,7 @@
+-- 90_1
+SELECT Studenci.Miejsce_zam, Count(Studenci.Miejsce_zam) AS PoliczOfMiejsce_zam
+FROM Studenci
+GROUP BY Studenci.Miejsce_zam
+ORDER BY Count(Studenci.Miejsce_zam) DESC;
+
+
