@@ -1,7 +1,7 @@
 
 # Matura Informatyka – Arkusze maturalne
 
-Poniżej znajdują się linki do arkuszy maturalnych z informatyki z różnych lat:
+Poniżej znajdują się linki do arkuszy maturalnych z informatyki z lat 2015-2019:
 
 ## 2015
 - [Arkusz 1 (MIN-R1)](https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Arkusze_egzaminacyjne/2015/formula_od_2015/MIN-R1_1P-152.pdf)
