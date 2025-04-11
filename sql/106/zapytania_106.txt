@@ -1,0 +1,73 @@
+-- 1
+SELECT TOP 3 Count(Gatunki.ID_gatunku) AS PoliczOfID_gatunku, Gatunki.nazwa_zwyczajowa
+FROM Gatunki INNER JOIN Obserwacje ON Gatunki.ID_gatunku = Obserwacje.ID_gatunku
+GROUP BY Obserwacje.ID_gatunku, Gatunki.nazwa_zwyczajowa
+ORDER BY Count(Gatunki.ID_gatunku) DESC;
+
+
+-- 2
+SELECT Month([Obserwacje.poczatek]) AS Miesiac, Sum(Obserwacje.liczebnosc) AS Liczba
+FROM Lokalizacje INNER JOIN (Gatunki INNER JOIN Obserwacje ON Gatunki.ID_gatunku = Obserwacje.ID_gatunku) ON Lokalizacje.ID_lokalizacji = Obserwacje.ID_lokalizacji
+GROUP BY Month([Obserwacje.poczatek]), Gatunki.nazwa_zwyczajowa
+HAVING (((Gatunki.nazwa_zwyczajowa)="remiz"));
+
+
+-- 3
+SELECT [3_pom].nazwa_zwyczajowa, Sum([3_pom].PoliczOfnazwa_zwyczajowa) AS SumaOfPoliczOfnazwa_zwyczajowa
+FROM 3_pom
+GROUP BY [3_pom].nazwa_zwyczajowa;
+
+
+-- 3_pom
+SELECT Gatunki.nazwa_zwyczajowa, Count(Gatunki.nazwa_zwyczajowa) AS PoliczOfnazwa_zwyczajowa
+FROM Lokalizacje INNER JOIN (Gatunki INNER JOIN Obserwacje ON Gatunki.ID_gatunku = Obserwacje.ID_gatunku) ON Lokalizacje.ID_lokalizacji = Obserwacje.ID_lokalizacji
+GROUP BY Lokalizacje.opis, Gatunki.nazwa_lacinska, Gatunki.nazwa_zwyczajowa
+HAVING (((Lokalizacje.opis) Like "miasto*") AND ((Gatunki.nazwa_lacinska) Like "*Corvus*"))
+ORDER BY Gatunki.nazwa_zwyczajowa DESC;
+
+
+-- 4_pom
+SELECT [koniec]-[poczatek] AS Wyr1, Lokalizacje.ID_lokalizacji, Obserwacje.poczatek, Obserwacje.koniec, Obserwacje.liczebnosc
+FROM Lokalizacje INNER JOIN Obserwacje ON Lokalizacje.ID_lokalizacji = Obserwacje.ID_lokalizacji
+ORDER BY [koniec]-[poczatek];
+
+
+-- 4_pom2
+SELECT Round([Wyr1]*24*60,1) AS Minuty, [4_pom].poczatek, [4_pom].koniec, [4_pom].ID_lokalizacji, [4_pom].liczebnosc
+FROM 4_pom
+ORDER BY Round([Wyr1]*24*60,1) DESC;
+
+
+-- 4a
+SELECT [4a_pom3].Minuty, [4a_pom3].poczatek, Sum([4a_pom3].liczebnosc) AS SumaOfliczebnosc, Lokalizacje.lokalizacja
+FROM 4a_pom3 INNER JOIN Lokalizacje ON [4a_pom3].ID_lokalizacji = Lokalizacje.ID_lokalizacji
+GROUP BY [4a_pom3].Minuty, [4a_pom3].ID_lokalizacji, [4a_pom3].poczatek, Lokalizacje.lokalizacja
+ORDER BY [4a_pom3].Minuty DESC;
+
+
+-- 4a_pom3
+SELECT [4_pom2].Minuty, [4_pom2].ID_lokalizacji, [4_pom2].poczatek, [4_pom2].liczebnosc
+FROM 4_pom2;
+
+
+-- 4b
+SELECT TOP 1 [SumaOfliczebnosc]/[Minuty] AS Wyr1, [4a].poczatek, [4a].lokalizacja
+FROM 4a
+ORDER BY [SumaOfliczebnosc]/[Minuty] DESC;
+
+
+-- 5a
+SELECT Gatunki.nazwa_zwyczajowa, Sum(Obserwacje.liczebnosc) AS SumaOfliczebnosc
+FROM Lokalizacje INNER JOIN (Gatunki INNER JOIN Obserwacje ON Gatunki.ID_gatunku = Obserwacje.ID_gatunku) ON Lokalizacje.ID_lokalizacji = Obserwacje.ID_lokalizacji
+GROUP BY Gatunki.nazwa_zwyczajowa
+HAVING (((Gatunki.nazwa_zwyczajowa) Like "*zuraw*"));
+
+
+-- 5b
+SELECT Lokalizacje.powiat, Sum(Obserwacje.liczebnosc) AS SumaOfliczebnosc, Obserwacje.zachowanie
+FROM Lokalizacje INNER JOIN (Gatunki INNER JOIN Obserwacje ON Gatunki.ID_gatunku = Obserwacje.ID_gatunku) ON Lokalizacje.ID_lokalizacji = Obserwacje.ID_lokalizacji
+GROUP BY Lokalizacje.powiat, Gatunki.nazwa_zwyczajowa, Obserwacje.zachowanie
+HAVING (((Gatunki.nazwa_zwyczajowa) Like "*zuraw*"))
+ORDER BY Sum(Obserwacje.liczebnosc) DESC;
+
+

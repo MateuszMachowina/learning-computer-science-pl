@@ -1,0 +1,52 @@
+-- 1
+SELECT TOP 3 [1pom].miejsce_docelowe, Count([1pom].miejsce_docelowe) AS PoliczOfmiejsce_docelowe
+FROM 1pom
+GROUP BY [1pom].miejsce_docelowe
+ORDER BY Count([1pom].miejsce_docelowe) DESC;
+
+
+-- 1pom
+SELECT Loty.miejsce_docelowe, Count(Loty.id_lotu) AS PoliczOfid_lotu, Loty.data
+FROM Loty
+GROUP BY Loty.miejsce_docelowe, Loty.data;
+
+
+-- 2
+SELECT Count(Bilety.id_lotu) AS Ilosc_biletow, Pasazerowie.nazwisko, Pasazerowie.imie
+FROM Pasazerowie INNER JOIN Bilety ON Pasazerowie.id_pasazera = Bilety.id_pasazera
+GROUP BY Pasazerowie.id_pasazera, Pasazerowie.nazwisko, Pasazerowie.imie
+HAVING (((Count(Bilety.id_lotu))>15))
+ORDER BY Count(Bilety.id_lotu) DESC;
+
+
+-- 3
+SELECT [3pom].Miesiac AS Nr_miesiaca, Count([3pom].Miesiac) AS Ile_biletow
+FROM 3pom
+GROUP BY [3pom].Miesiac;
+
+
+-- 3pom
+SELECT Pasazerowie.miejscowosc, Month([data]) AS Miesiac
+FROM Pasazerowie INNER JOIN (Loty INNER JOIN Bilety ON Loty.id_lotu = Bilety.id_lotu) ON Pasazerowie.id_pasazera = Bilety.id_pasazera
+WHERE (((Pasazerowie.miejscowosc)="Wroclaw"));
+
+
+-- 4
+SELECT Pasazerowie.imie, Pasazerowie.nazwisko
+FROM Pasazerowie INNER JOIN (Loty INNER JOIN Bilety ON Loty.id_lotu = Bilety.id_lotu) ON Pasazerowie.id_pasazera = Bilety.id_pasazera
+WHERE (((Loty.miejsce_docelowe) Like "*Londyn*") AND ((Loty.godzina)>=#12/30/1899 8:0:0# And (Loty.godzina)<=#12/30/1899 10:0:0#))
+ORDER BY Pasazerowie.nazwisko;
+
+
+-- 5pom
+SELECT DISTINCT Bilety.id_lotu
+FROM Pasazerowie INNER JOIN Bilety ON Pasazerowie.id_pasazera = Bilety.id_pasazera
+ORDER BY Bilety.id_lotu;
+
+
+-- Obiekt Loty nie pasuje do obiektu 5pom
+SELECT Loty.id_lotu, Loty.miejsce_docelowe
+FROM Loty LEFT JOIN 5pom ON Loty.[id_lotu] = [5pom].[id_lotu]
+WHERE ((([5pom].id_lotu) Is Null));
+
+

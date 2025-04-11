@@ -1,0 +1,54 @@
+-- 110_1
+SELECT Miejscowosci.typ_miejscowosci
+FROM Miejscowosci
+WHERE (((Miejscowosci.typ_miejscowosci)="miasto"));
+
+
+-- 110_2
+SELECT Powiaty.nazwa_powiatu, Miejscowosci.typ_miejscowosci, Count(Miejscowosci.typ_miejscowosci) AS PoliczOftyp_miejscowosci
+FROM (Powiaty INNER JOIN Gminy ON Powiaty.id_powiatu = Gminy.id_powiatu) INNER JOIN Miejscowosci ON Gminy.id_gminy = Miejscowosci.id_gminy
+GROUP BY Powiaty.nazwa_powiatu, Miejscowosci.typ_miejscowosci
+HAVING (((Powiaty.nazwa_powiatu)="brodnicki"));
+
+
+-- 110_3
+SELECT Powiaty.nazwa_powiatu, Wojewodztwa.nazwa_wojewodztwa
+FROM 110_3_pom, Wojewodztwa INNER JOIN Powiaty ON Wojewodztwa.id_wojewodztwa = Powiaty.id_wojewodztwa
+GROUP BY Powiaty.nazwa_powiatu, Wojewodztwa.nazwa_wojewodztwa
+HAVING (((Powiaty.nazwa_powiatu) In (select nazwa_powiatu from 110_3_pom)))
+ORDER BY Powiaty.nazwa_powiatu, Wojewodztwa.nazwa_wojewodztwa;
+
+
+-- 110_3_pom
+SELECT Powiaty.nazwa_powiatu, Count(Powiaty.nazwa_powiatu) AS PoliczOfnazwa_powiatu
+FROM Powiaty INNER JOIN Wojewodztwa ON Powiaty.id_wojewodztwa = Wojewodztwa.id_wojewodztwa
+GROUP BY Powiaty.nazwa_powiatu
+HAVING (((Count(Powiaty.nazwa_powiatu))>1));
+
+
+-- 110_4_gminy_miejskie
+SELECT Gminy.id_gminy, Gminy.nazwa_gminy, Wojewodztwa.nazwa_wojewodztwa, Miejscowosci.typ_miejscowosci
+FROM ((Gminy INNER JOIN Powiaty ON Gminy.id_powiatu = Powiaty.id_powiatu) INNER JOIN Wojewodztwa ON Powiaty.id_wojewodztwa = Wojewodztwa.id_wojewodztwa) INNER JOIN Miejscowosci ON Gminy.id_gminy = Miejscowosci.id_gminy
+WHERE (((Wojewodztwa.nazwa_wojewodztwa)="kujawsko-pomorskie") AND ((Miejscowosci.typ_miejscowosci)="miasto"));
+
+
+-- 110_4_wszystko
+SELECT Gminy.id_gminy, Wojewodztwa.nazwa_wojewodztwa
+FROM ((Gminy INNER JOIN Miejscowosci ON Gminy.id_gminy = Miejscowosci.id_gminy) INNER JOIN Powiaty ON Gminy.id_powiatu = Powiaty.id_powiatu) INNER JOIN Wojewodztwa ON Powiaty.id_wojewodztwa = Wojewodztwa.id_wojewodztwa
+GROUP BY Gminy.id_gminy, Wojewodztwa.nazwa_wojewodztwa
+HAVING (((Wojewodztwa.nazwa_wojewodztwa)="kujawsko-pomorskie"));
+
+
+-- 110_5
+SELECT [110_5_pom].nazwa_wojewodztwa, [110_5_pom].nazwa_powiatu, [110_5_pom].nazwa_gminy
+FROM Miejscowosci INNER JOIN 110_5_pom ON Miejscowosci.id_gminy = [110_5_pom].id_gminy
+WHERE (((Miejscowosci.typ_miejscowosci)="miasto"));
+
+
+-- 110_5_pom
+SELECT Wojewodztwa.nazwa_wojewodztwa, Powiaty.nazwa_powiatu, Gminy.nazwa_gminy, Count(Miejscowosci.id_miejscowosci) AS PoliczOfid_miejscowosci, Miejscowosci.id_gminy
+FROM ((Gminy INNER JOIN Miejscowosci ON Gminy.id_gminy = Miejscowosci.id_gminy) INNER JOIN Powiaty ON Gminy.id_powiatu = Powiaty.id_powiatu) INNER JOIN Wojewodztwa ON Powiaty.id_wojewodztwa = Wojewodztwa.id_wojewodztwa
+GROUP BY Wojewodztwa.nazwa_wojewodztwa, Powiaty.nazwa_powiatu, Gminy.nazwa_gminy, Miejscowosci.id_gminy
+HAVING (((Gminy.nazwa_gminy) Like "J*") AND ((Count(Miejscowosci.id_miejscowosci))=1));
+
+

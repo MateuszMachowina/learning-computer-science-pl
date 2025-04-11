@@ -1,0 +1,57 @@
+-- 1
+SELECT Sprzet_budowlany.Nazwa_sprzetu, Count(Wynajem.ID_sprzetu) AS PoliczOfID_sprzetu
+FROM Sprzet_budowlany INNER JOIN (Klienci INNER JOIN Wynajem ON Klienci.Nr_dowodu_osoby = Wynajem.Nr_dowodu_osoby) ON Sprzet_budowlany.ID_sprzetu = Wynajem.ID_sprzetu
+GROUP BY Wynajem.ID_sprzetu, Sprzet_budowlany.Nazwa_sprzetu
+ORDER BY Count(Wynajem.ID_sprzetu) DESC;
+
+
+-- 2
+SELECT Klienci.Nr_dowodu_osoby, Sum(Sprzet_budowlany.Kaucja) AS SumaOfKaucja
+FROM Sprzet_budowlany INNER JOIN (Klienci INNER JOIN Wynajem ON Klienci.Nr_dowodu_osoby = Wynajem.Nr_dowodu_osoby) ON Sprzet_budowlany.ID_sprzetu = Wynajem.ID_sprzetu
+GROUP BY Klienci.Nr_dowodu_osoby
+HAVING (((Klienci.Nr_dowodu_osoby)="JCK343973"));
+
+
+-- 3
+SELECT Year([Data_wypozycz]) AS Rok, Klienci.Nr_dowodu_osoby, Count(Klienci.Nr_dowodu_osoby) AS PoliczOfNr_dowodu_osoby, Klienci.Imie, Klienci.Nazwisko
+FROM Sprzet_budowlany INNER JOIN (Klienci INNER JOIN Wynajem ON Klienci.Nr_dowodu_osoby = Wynajem.Nr_dowodu_osoby) ON Sprzet_budowlany.ID_sprzetu = Wynajem.ID_sprzetu
+GROUP BY Year([Data_wypozycz]), Klienci.Nr_dowodu_osoby, Klienci.Imie, Klienci.Nazwisko
+HAVING (((Year([Data_wypozycz])) Like "*2014*") AND ((Count(Klienci.Nr_dowodu_osoby))>3))
+ORDER BY Count(Klienci.Nr_dowodu_osoby) DESC;
+
+
+-- 4, odp: 1469-1401=68
+SELECT Year([Data_wypozycz]) AS Rok, Klienci.Nr_dowodu_osoby
+FROM Sprzet_budowlany INNER JOIN (Klienci INNER JOIN Wynajem ON Klienci.Nr_dowodu_osoby = Wynajem.Nr_dowodu_osoby) ON Sprzet_budowlany.ID_sprzetu = Wynajem.ID_sprzetu
+GROUP BY Year([Data_wypozycz]), Klienci.Nr_dowodu_osoby
+HAVING (((Year([Data_wypozycz])) Like "*2014*"));
+
+
+-- 5a
+SELECT [5a_pom2].Miesiac, Sum([5a_pom2].Wyr1) AS SumaOfWyr1
+FROM 5a_pom2
+GROUP BY [5a_pom2].Miesiac;
+
+
+-- 5a_pom1
+SELECT Month([Data_wypozycz]) AS Miesiac, Sprzet_budowlany.Koszt_wynajecia, Abs([Data_wypozycz]-[Data_zwrotu]) AS Ile_dni
+FROM Sprzet_budowlany INNER JOIN (Klienci INNER JOIN Wynajem ON Klienci.Nr_dowodu_osoby = Wynajem.Nr_dowodu_osoby) ON Sprzet_budowlany.ID_sprzetu = Wynajem.ID_sprzetu
+ORDER BY Month([Data_wypozycz]);
+
+
+-- 5a_pom2
+SELECT [5a_pom1].Miesiac, [5a_pom1].Koszt_wynajecia, [5a_pom1].Ile_dni, [Koszt_wynajecia]*[Ile_dni] AS Wyr1
+FROM 5a_pom1;
+
+
+-- 5b
+SELECT Month([Data_wypozycz]) AS Miesiac, Sum(Wynajem1.Cena) AS SumaOfCena
+FROM Klienci INNER JOIN (Sprzet_budowlany INNER JOIN Wynajem1 ON Sprzet_budowlany.ID_sprzetu = Wynajem1.ID_sprzetu) ON Klienci.Nr_dowodu_osoby = Wynajem1.Nr_dowodu_osoby
+GROUP BY Month([Data_wypozycz]);
+
+
+-- Wynajem1
+SELECT Wynajem.*, IIf([Wynajem].[Transport_km]>10,100,IIf([Wynajem].[Transport_km]=0,0,50)) AS Cena
+FROM Wynajem;
+
+

@@ -1,0 +1,40 @@
+-- 1
+SELECT [1_pom].Plec, Count([1_pom].Plec) AS PoliczOfPlec
+FROM 1_pom
+GROUP BY [1_pom].Plec;
+
+
+-- 1_pom
+SELECT DISTINCT Osoby.Id_uzytkownika, Osoby.Plec, Zajecia.Zajecia
+FROM Zajecia INNER JOIN (Osoby INNER JOIN Wejscia ON Osoby.Id_uzytkownika = Wejscia.Id_uzytkownika) ON Zajecia.Id_zajec = Wejscia.Id_zajec
+GROUP BY Osoby.Id_uzytkownika, Osoby.Plec, Zajecia.Zajecia
+HAVING (((Zajecia.Zajecia) Like "*TBC*"));
+
+
+-- 2
+SELECT Zajecia.Obiekt, Sum(Zajecia.Koszt) AS SumaOfKoszt
+FROM Osoby INNER JOIN (Zajecia INNER JOIN Wejscia ON Zajecia.Id_zajec = Wejscia.Id_zajec) ON Osoby.Id_uzytkownika = Wejscia.Id_uzytkownika
+GROUP BY Zajecia.Obiekt;
+
+
+-- 3
+SELECT Wejscia.Data, Osoby.Id_uzytkownika, Count(Wejscia.Lp) AS PoliczOfLp, Osoby.Imie, Osoby.Nazwisko
+FROM Zajecia INNER JOIN (Osoby INNER JOIN Wejscia ON Osoby.Id_uzytkownika = Wejscia.Id_uzytkownika) ON Zajecia.Id_zajec = Wejscia.Id_zajec
+GROUP BY Wejscia.Data, Osoby.Id_uzytkownika, Osoby.Imie, Osoby.Nazwisko
+HAVING (((Wejscia.Data)=#4/16/2014#) AND ((Count(Wejscia.Lp))=2));
+
+
+-- 4
+SELECT Zajecia.Zajecia, Count(Wejscia.Lp) AS PoliczOfLp, Zajecia.Obiekt
+FROM Osoby INNER JOIN (Zajecia INNER JOIN Wejscia ON Zajecia.Id_zajec = Wejscia.Id_zajec) ON Osoby.Id_uzytkownika = Wejscia.Id_uzytkownika
+GROUP BY Zajecia.Zajecia, Zajecia.Obiekt
+ORDER BY Count(Wejscia.Lp) DESC;
+
+
+-- 5
+SELECT Zajecia.Obiekt, Count(Wejscia.Lp) AS PoliczOfLp
+FROM Osoby INNER JOIN (Zajecia INNER JOIN Wejscia ON Zajecia.Id_zajec = Wejscia.Id_zajec) ON Osoby.Id_uzytkownika = Wejscia.Id_uzytkownika
+GROUP BY Zajecia.Obiekt
+ORDER BY Zajecia.Obiekt;
+
+

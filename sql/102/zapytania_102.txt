@@ -1,0 +1,62 @@
+-- 1
+SELECT Count([1_pom].ID_zdjecia) AS PoliczOfID_zdjecia
+FROM 1_pom;
+
+
+-- 1_pom
+SELECT Zdjecia.ID_zdjecia, Zdjecia.Data_dodania
+FROM Zdjecia
+GROUP BY Zdjecia.ID_zdjecia, Zdjecia.Data_dodania
+HAVING (((Zdjecia.Data_dodania) Like "*2014*"));
+
+
+-- 2
+SELECT Uzytkownicy.Imie, Uzytkownicy.Nazwisko, Uzytkownicy.Kraj, Uzytkownicy_1.Imie, Uzytkownicy_1.Nazwisko, Uzytkownicy_1.Kraj
+FROM Uzytkownicy AS Uzytkownicy_1 INNER JOIN (Uzytkownicy INNER JOIN Znajomosci ON Uzytkownicy.ID_uzytkownika = Znajomosci.Znajomy_2) ON Uzytkownicy_1.ID_uzytkownika = Znajomosci.Znajomy_1
+WHERE (((IIf([Uzytkownicy].[Imie]=[Uzytkownicy_1].[Imie],1,0))=1));
+
+
+-- 3
+SELECT TOP 10 [3_pom].Kraj, Count([3_pom].ID_zdjecia) AS PoliczOfID_zdjecia
+FROM 3_pom
+GROUP BY [3_pom].Kraj
+ORDER BY Count([3_pom].ID_zdjecia) DESC;
+
+
+-- 3_pom
+SELECT Uzytkownicy.Kraj, Zdjecia.ID_zdjecia
+FROM Uzytkownicy INNER JOIN Zdjecia ON Uzytkownicy.ID_uzytkownika = Zdjecia.ID_uzytkownika
+GROUP BY Uzytkownicy.Kraj, Zdjecia.ID_zdjecia;
+
+
+-- 4
+SELECT TOP 1 Zdjecia.Szerokosc, Zdjecia.Wysokosc, Uzytkownicy.Imie, Uzytkownicy.Nazwisko, [Zdjecia].[Szerokosc]*[Zdjecia].[Wysokosc] AS Piksele
+FROM Uzytkownicy INNER JOIN Zdjecia ON Uzytkownicy.ID_uzytkownika = Zdjecia.ID_uzytkownika
+ORDER BY [Zdjecia].[Szerokosc]*[Zdjecia].[Wysokosc] DESC;
+
+
+-- 5
+SELECT DISTINCT Uzytkownicy.Imie, Uzytkownicy.Nazwisko, Uzytkownicy.Kraj
+FROM (Uzytkownicy INNER JOIN Zdjecia ON Uzytkownicy.ID_uzytkownika = Zdjecia.ID_uzytkownika) INNER JOIN 5pom3 ON Uzytkownicy.ID_uzytkownika = [5pom3].ID_uzytkownika
+WHERE (((Uzytkownicy.Plec)="M") AND ((Zdjecia.Data_dodania)<[5pom3.Data]));
+
+
+-- 5_pom1
+SELECT Uzytkownicy.ID_uzytkownika, Min(Znajomosci.Data) AS Data1
+FROM Uzytkownicy AS Uzytkownicy_1 INNER JOIN (Uzytkownicy INNER JOIN Znajomosci ON Uzytkownicy.ID_uzytkownika = Znajomosci.Znajomy_2) ON Uzytkownicy_1.ID_uzytkownika = Znajomosci.Znajomy_1
+GROUP BY Uzytkownicy.ID_uzytkownika
+ORDER BY Uzytkownicy.ID_uzytkownika DESC;
+
+
+-- 5_pom2
+SELECT Uzytkownicy_1.ID_uzytkownika, Min(Znajomosci.Data) AS Data2
+FROM Uzytkownicy AS Uzytkownicy_1 INNER JOIN (Uzytkownicy INNER JOIN Znajomosci ON Uzytkownicy.ID_uzytkownika = Znajomosci.Znajomy_2) ON Uzytkownicy_1.ID_uzytkownika = Znajomosci.Znajomy_1
+GROUP BY Uzytkownicy_1.ID_uzytkownika
+ORDER BY Uzytkownicy_1.ID_uzytkownika DESC;
+
+
+-- 5pom3
+SELECT [5_pom1].ID_uzytkownika, IIf([Data1]>[Data2],[Data2],[Data1]) AS Data
+FROM 5_pom2 INNER JOIN 5_pom1 ON [5_pom2].ID_uzytkownika = [5_pom1].ID_uzytkownika;
+
+

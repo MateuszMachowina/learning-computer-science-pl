@@ -1,0 +1,46 @@
+-- 1
+SELECT Ankiety.Plec, Count(Ankiety.Plec) AS PoliczOfPlec
+FROM Ankiety
+GROUP BY Ankiety.Plec;
+
+
+-- 2
+SELECT [2_pom].Rodzaj_szkoly, ([ŒredniaOfpyt1]+[ŒredniaOfpyt2]+[ŒredniaOfpyt3]+[ŒredniaOfpyt4]+[ŒredniaOfpyt5]+[ŒredniaOfpyt6])/6 AS Wyr1
+FROM 2_pom;
+
+
+-- 2_pom
+SELECT Szkoly.Rodzaj_szkoly, Avg(Ankiety.pyt1) AS ŒredniaOfpyt1, Avg(Ankiety.pyt2) AS ŒredniaOfpyt2, Avg(Ankiety.pyt3) AS ŒredniaOfpyt3, Avg(Ankiety.pyt4) AS ŒredniaOfpyt4, Avg(Ankiety.pyt5) AS ŒredniaOfpyt5, Avg(Ankiety.pyt6) AS ŒredniaOfpyt6
+FROM Szkoly INNER JOIN Ankiety ON Szkoly.Id_szkoly = Ankiety.Id_szkoly
+GROUP BY Szkoly.Rodzaj_szkoly;
+
+
+-- 3
+SELECT Gminy.Kod_gminy, Avg(Ankiety.pyt6) AS ŒredniaOfpyt6
+FROM (Gminy INNER JOIN Szkoly ON Gminy.Kod_gminy = Szkoly.Kod_gminy) INNER JOIN Ankiety ON Szkoly.Id_szkoly = Ankiety.Id_szkoly
+GROUP BY Gminy.Kod_gminy
+ORDER BY Avg(Ankiety.pyt6) DESC;
+
+
+-- 4
+SELECT Szkoly.Rodzaj_szkoly, Count(Ankiety.pyt3) AS PoliczOfpyt3
+FROM Szkoly INNER JOIN Ankiety ON Szkoly.Id_szkoly = Ankiety.Id_szkoly
+GROUP BY Szkoly.Rodzaj_szkoly, Ankiety.pyt3
+HAVING (((Ankiety.pyt3)=5))
+ORDER BY Szkoly.Rodzaj_szkoly;
+
+
+-- 5
+SELECT Gminy.Nazwa_gminy, Count(Ankiety.pyt1) AS PoliczOfpyt1
+FROM (Gminy INNER JOIN Szkoly ON Gminy.Kod_gminy = Szkoly.Kod_gminy) INNER JOIN Ankiety ON Szkoly.Id_szkoly = Ankiety.Id_szkoly
+GROUP BY Gminy.Nazwa_gminy
+ORDER BY Count(Ankiety.pyt1) DESC;
+
+
+-- 6
+SELECT Szkoly.Rodzaj_szkoly, Ankiety.Plec, Count(Ankiety.pyt1) AS PoliczOfpyt1
+FROM Szkoly INNER JOIN Ankiety ON Szkoly.Id_szkoly = Ankiety.Id_szkoly
+GROUP BY Szkoly.Rodzaj_szkoly, Ankiety.Plec, Ankiety.pyt1
+HAVING (((Ankiety.pyt1)=5));
+
+

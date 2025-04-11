@@ -1,0 +1,62 @@
+-- 1_pom
+SELECT Zamowienia.Data, Osoby.Id_klienta, Rosliny.Id_rosliny, Rosliny.Cena, Zamowienia.Liczba_sadzonek, [Rosliny].[Cena]*[Zamowienia].[Liczba_sadzonek] AS Wartosc
+FROM Rosliny INNER JOIN (Osoby INNER JOIN Zamowienia ON Osoby.Id_klienta = Zamowienia.Id_klienta) ON Rosliny.Id_rosliny = Zamowienia.Id_rosliny
+GROUP BY Zamowienia.Data, Osoby.Id_klienta, Rosliny.Id_rosliny, Rosliny.Cena, Zamowienia.Liczba_sadzonek, [Rosliny].[Cena]*[Zamowienia].[Liczba_sadzonek];
+
+
+-- 1_pom2
+SELECT [1_pom].Data, [1_pom].Id_klienta, Sum([1_pom].Wartosc) AS Zarobek
+FROM 1_pom
+GROUP BY [1_pom].Data, [1_pom].Id_klienta;
+
+
+-- 1a
+SELECT Count([1_pom2].Id_klienta) AS PoliczOfId_klienta
+FROM 1_pom2;
+
+
+-- 1b
+SELECT TOP 1 [1_pom2].Zarobek
+FROM 1_pom2
+ORDER BY [1_pom2].Zarobek DESC;
+
+
+-- 1c
+SELECT [1_pom2].Id_klienta, Count([1_pom2].Id_klienta) AS PoliczOfId_klienta
+FROM 1_pom2
+GROUP BY [1_pom2].Id_klienta
+HAVING (((Count([1_pom2].Id_klienta))>1));
+
+
+-- 2
+SELECT Osoby.Miasto, Count(Zamowienia.Lp) AS PoliczOfLp
+FROM Osoby INNER JOIN (Rosliny INNER JOIN Zamowienia ON Rosliny.Id_rosliny = Zamowienia.Id_rosliny) ON Osoby.Id_klienta = Zamowienia.Id_klienta
+GROUP BY Rosliny.Okres_kwitnienia, Osoby.Miasto
+HAVING (((Rosliny.Okres_kwitnienia)="VII-VIII"))
+ORDER BY Count(Zamowienia.Lp) DESC;
+
+
+-- 3
+SELECT Rosliny.Kolor_kwiatow, Zamowienia.Liczba_sadzonek, Osoby.Imie, Osoby.Nazwisko, Rosliny.Nazwa
+FROM Osoby INNER JOIN (Rosliny INNER JOIN Zamowienia ON Rosliny.Id_rosliny = Zamowienia.Id_rosliny) ON Osoby.Id_klienta = Zamowienia.Id_klienta
+WHERE (((Rosliny.Kolor_kwiatow)="bialo-liliowe") AND ((Zamowienia.Liczba_sadzonek)>10));
+
+
+-- 4_all
+SELECT Rosliny.Nazwa
+FROM Rosliny
+GROUP BY Rosliny.Nazwa;
+
+
+-- 4_zam
+SELECT Rosliny.Nazwa
+FROM Rosliny INNER JOIN Zamowienia ON Rosliny.Id_rosliny = Zamowienia.Id_rosliny
+GROUP BY Rosliny.Nazwa;
+
+
+-- 5
+SELECT Rosliny.Rozmiary_doniczki, Count(Zamowienia.Lp) AS PoliczOfLp
+FROM Osoby INNER JOIN (Rosliny INNER JOIN Zamowienia ON Rosliny.Id_rosliny = Zamowienia.Id_rosliny) ON Osoby.Id_klienta = Zamowienia.Id_klienta
+GROUP BY Rosliny.Rozmiary_doniczki;
+
+

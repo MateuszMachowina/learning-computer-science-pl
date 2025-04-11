@@ -1,0 +1,49 @@
+-- 1
+SELECT Sum(Drogi.dlugosc) AS SumaOfdlugosc
+FROM Drogi;
+
+
+-- 2
+SELECT TOP 1 Drogi.nazwa, Drogi.dlugosc
+FROM Drogi INNER JOIN 2pom2 ON Drogi.id_drogi = [2pom2].id_drogi
+GROUP BY Drogi.nazwa, Drogi.dlugosc
+ORDER BY Drogi.dlugosc DESC;
+
+
+-- 2pom_maja
+SELECT Drogi.id_drogi
+FROM Drogi INNER JOIN (Sieci INNER JOIN Stacje ON Sieci.id_sieci = Stacje.id_sieci) ON Drogi.id_drogi = Stacje.id_drogi
+GROUP BY Drogi.id_drogi;
+
+
+-- 2pom2
+SELECT Drogi.id_drogi
+FROM Drogi
+WHERE (((Drogi.id_drogi) Not In (select id_drogi from 2pom)));
+
+
+-- 3
+SELECT Drogi.nazwa, Round([3pom.dlugosc]/[3pom.Ilosc],1) AS Srednia, Drogi.id_drogi
+FROM Drogi INNER JOIN 3pom ON Drogi.nazwa = [3pom].nazwa
+ORDER BY Round([3pom.dlugosc]/[3pom.Ilosc],1);
+
+
+-- 3pom
+SELECT Drogi.nazwa, Count(Stacje.id_stacji) AS Ilosc, Drogi.dlugosc
+FROM (Drogi INNER JOIN 2pom_maja ON Drogi.id_drogi = [2pom_maja].id_drogi) INNER JOIN Stacje ON Drogi.id_drogi = Stacje.id_drogi
+GROUP BY Drogi.nazwa, Drogi.dlugosc;
+
+
+-- 4
+SELECT Drogi.nazwa, Kategorie.kategoria
+FROM Kategorie INNER JOIN Drogi ON Kategorie.id_kategorii = Drogi.id_kategorii
+WHERE (((Drogi.nazwa) Like "*autostrada*") AND ((Kategorie.kategoria) Not Like "*autostrada*"));
+
+
+-- 5
+SELECT Sieci.nazwa_sieci, Kategorie.kategoria, Count(Stacje.id_stacji) AS PoliczOfid_stacji
+FROM Sieci INNER JOIN ((Kategorie INNER JOIN Drogi ON Kategorie.id_kategorii = Drogi.id_kategorii) INNER JOIN Stacje ON Drogi.id_drogi = Stacje.id_drogi) ON Sieci.id_sieci = Stacje.id_sieci
+GROUP BY Sieci.nazwa_sieci, Kategorie.kategoria
+ORDER BY Sieci.nazwa_sieci;
+
+

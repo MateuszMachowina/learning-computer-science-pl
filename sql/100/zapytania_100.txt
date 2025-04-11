@@ -1,0 +1,62 @@
+-- 1
+SELECT Listy.nazwa, Avg(Punktacja.punkty) AS ŒredniaOfpunkty
+FROM Listy INNER JOIN (Osoby INNER JOIN Punktacja ON Osoby.id_osoby = Punktacja.id_osoby) ON Listy.id_listy = Punktacja.id_listy
+GROUP BY Listy.nazwa;
+
+
+-- 2
+SELECT [2_pom].id_osoby, [2_pom].imie, [2_pom].nazwisko, [data]-[termin_oddania] AS Wyr1
+FROM 2_pom
+GROUP BY [2_pom].id_osoby, [2_pom].imie, [2_pom].nazwisko, [data]-[termin_oddania]
+HAVING ((([data]-[termin_oddania])>=14));
+
+
+-- 2_pom
+SELECT Osoby.id_osoby, Osoby.imie, Osoby.nazwisko, Listy.termin_oddania, Punktacja.data, Listy.nazwa
+FROM Listy INNER JOIN (Osoby INNER JOIN Punktacja ON Osoby.id_osoby = Punktacja.id_osoby) ON Listy.id_listy = Punktacja.id_listy
+WHERE (((Listy.nazwa) Like "P*"));
+
+
+-- 3
+SELECT [3_pom2].ocena, Count([3_pom2].id_osoby) AS PoliczOfid_osoby
+FROM 3_pom2
+GROUP BY [3_pom2].ocena;
+
+
+-- 3_pom
+SELECT Punktacja.id_osoby, Sum(Punktacja.punkty) AS punkty
+FROM Punktacja
+GROUP BY Punktacja.id_osoby;
+
+
+-- 3_pom2
+SELECT [3_pom].id_osoby, Switch([punkty]<72,1,[punkty]>=72 And [punkty]<90,2,[punkty]>=90 And [punkty]<126,3,[punkty]>=126 And [punkty]<153,4,[punkty]>=153,5) AS ocena
+FROM 3_pom;
+
+
+-- 4
+SELECT Osoby.grupa, Punktacja.punkty, Count(Punktacja.id_osoby) AS Ilosc
+FROM Osoby INNER JOIN Punktacja ON Osoby.id_osoby = Punktacja.id_osoby
+GROUP BY Osoby.grupa, Punktacja.punkty
+HAVING (((Punktacja.punkty)=10 Or (Punktacja.punkty)=11 Or (Punktacja.punkty)=12));
+
+
+-- 5
+SELECT Osoby.imie, Osoby.nazwisko
+FROM 5_pom2 INNER JOIN Osoby ON [5_pom2].id_osoby = Osoby.id_osoby
+ORDER BY Osoby.nazwisko;
+
+
+-- 5_pom
+SELECT Punktacja.id_osoby, Punktacja.id_listy
+FROM Osoby INNER JOIN (Listy INNER JOIN Punktacja ON Listy.id_listy = Punktacja.id_listy) ON Osoby.id_osoby = Punktacja.id_osoby
+GROUP BY Punktacja.id_osoby, Punktacja.id_listy;
+
+
+-- 5_pom2
+SELECT [5_pom].id_osoby, Count([5_pom].id_listy) AS PoliczOfid_listy
+FROM 5_pom
+GROUP BY [5_pom].id_osoby
+HAVING (((Count([5_pom].id_listy))<11));
+
+

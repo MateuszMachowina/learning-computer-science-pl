@@ -1,0 +1,71 @@
+-- 1
+SELECT [1_all].Klasa, [1_dziew].PoliczOfKlasa, [1_all].PoliczOfKlasa
+FROM 1_dziew INNER JOIN 1_all ON [1_dziew].Klasa = [1_all].Klasa
+ORDER BY [1_dziew].PoliczOfKlasa DESC;
+
+
+-- 1_all
+SELECT Uczniowie.Klasa, Count(Uczniowie.Klasa) AS PoliczOfKlasa
+FROM Uczniowie
+GROUP BY Uczniowie.Klasa;
+
+
+-- 1_dziew
+SELECT [1_pom].Klasa, Count([1_pom].Klasa) AS PoliczOfKlasa
+FROM 1_pom
+GROUP BY [1_pom].Klasa;
+
+
+-- 1_pom
+SELECT Uczniowie.Imie, Uczniowie.Id_ucznia, Uczniowie.Klasa
+FROM Uczniowie
+WHERE (((Uczniowie.Imie) Like "*a"));
+
+
+-- 2
+SELECT Oceny.Data, Oceny.Ocena, Count(Oceny.Ocena) AS PoliczOfOcena
+FROM Oceny
+GROUP BY Oceny.Data, Oceny.Ocena
+HAVING (((Oceny.Ocena)=1) AND ((Count(Oceny.Ocena))>10));
+
+
+-- 3
+SELECT Uczniowie.Klasa, Przedmioty.Nazwa_przedmiotu, Avg(Oceny.Ocena) AS ŒredniaOfOcena
+FROM (Oceny INNER JOIN Uczniowie ON Oceny.Id_ucznia = Uczniowie.Id_ucznia) INNER JOIN Przedmioty ON Oceny.Id_przedmiotu = Przedmioty.Id_przedmiotu
+GROUP BY Uczniowie.Klasa, Przedmioty.Nazwa_przedmiotu
+HAVING (((Uczniowie.Klasa) Like "IV*") AND ((Przedmioty.Nazwa_przedmiotu) Like "j.polski"));
+
+
+-- 4
+SELECT [4_pom2].Wyr1 AS Miesiac, [4_pom2].Nazwa_przedmiotu, [4_pom2].PoliczOfOcena
+FROM 4_pom2
+GROUP BY [4_pom2].Wyr1, [4_pom2].Nazwa_przedmiotu, [4_pom2].PoliczOfOcena;
+
+
+-- 4_pom
+SELECT Przedmioty.Nazwa_przedmiotu, Month([Data]) AS Wyr1, Oceny.Ocena, Count(Oceny.Ocena) AS PoliczOfOcena
+FROM (Oceny INNER JOIN Przedmioty ON Oceny.Id_przedmiotu = Przedmioty.Id_przedmiotu) INNER JOIN Uczniowie ON Oceny.Id_ucznia = Uczniowie.Id_ucznia
+GROUP BY Przedmioty.Nazwa_przedmiotu, Month([Data]), Oceny.Ocena
+HAVING (((Oceny.Ocena)=5))
+ORDER BY Month([Data]);
+
+
+-- 4_pom2
+SELECT [4_pom].Wyr1, [4_pom].Nazwa_przedmiotu, [4_pom].PoliczOfOcena
+FROM 4_pom
+GROUP BY [4_pom].Wyr1, [4_pom].Nazwa_przedmiotu, [4_pom].PoliczOfOcena;
+
+
+-- 5
+SELECT Uczniowie.Id_ucznia, Uczniowie.Klasa, Uczniowie.Imie, Uczniowie.Nazwisko
+FROM Uczniowie LEFT JOIN 5_maja ON Uczniowie.Id_ucznia = [5_maja].Id_ucznia
+WHERE (((Uczniowie.Id_ucznia) Not In (select Id_ucznia from 5_maja)) AND ((Uczniowie.Klasa)="II A"));
+
+
+-- 5_maja
+SELECT Uczniowie.Imie, Uczniowie.Nazwisko, Oceny.Id_ucznia
+FROM (Oceny INNER JOIN Uczniowie ON Oceny.Id_ucznia = Uczniowie.Id_ucznia) INNER JOIN Przedmioty ON Oceny.Id_przedmiotu = Przedmioty.Id_przedmiotu
+GROUP BY Uczniowie.Imie, Uczniowie.Nazwisko, Przedmioty.Nazwa_przedmiotu, Uczniowie.Klasa, Oceny.Ocena, Oceny.Id_ucznia
+HAVING (((Przedmioty.Nazwa_przedmiotu)="sieci komputerowe") AND ((Uczniowie.Klasa)="II A"));
+
+

@@ -1,0 +1,47 @@
+-- 1
+SELECT TOP 1 Badania.PESEL, Count(Badania.PESEL) AS PoliczOfPESEL, Pacjenci.Imie, Pacjenci.Nazwisko, Left([Badania].[PESEL],2) AS Wyr1
+FROM Pacjenci INNER JOIN Badania ON Pacjenci.PESEL = Badania.PESEL
+GROUP BY Badania.PESEL, Pacjenci.Imie, Pacjenci.Nazwisko, Left([Badania].[PESEL],2)
+ORDER BY Count(Badania.PESEL) DESC;
+
+
+-- 2
+SELECT Pacjenci.NFZ, Sum(Rtg.Cena_Badania) AS SumaOfCena_Badania
+FROM Pacjenci INNER JOIN (Rtg INNER JOIN Badania ON Rtg.Id_badanie = Badania.Id_badanie) ON Pacjenci.PESEL = Badania.PESEL
+GROUP BY Pacjenci.NFZ
+ORDER BY Sum(Rtg.Cena_Badania) DESC;
+
+
+-- 3a
+SELECT Rtg.Nazwa_badania, Count(Rtg.Nazwa_badania) AS PoliczOfNazwa_badania
+FROM Rtg INNER JOIN (Pacjenci INNER JOIN Badania ON Pacjenci.PESEL = Badania.PESEL) ON Rtg.Id_badanie = Badania.Id_badanie
+GROUP BY Rtg.Nazwa_badania
+ORDER BY Count(Rtg.Nazwa_badania) DESC;
+
+
+-- 3b
+SELECT [3b_pom].Nazwa_badania, Count([3b_pom].PESEL) AS PoliczOfPESEL
+FROM 3b_pom
+GROUP BY [3b_pom].Nazwa_badania
+ORDER BY Count([3b_pom].PESEL) DESC;
+
+
+-- 3b_pom
+SELECT Rtg.Nazwa_badania, Pacjenci.PESEL, Rtg.Id_badanie
+FROM Rtg INNER JOIN (Pacjenci INNER JOIN Badania ON Pacjenci.PESEL = Badania.PESEL) ON Rtg.Id_badanie = Badania.Id_badanie
+GROUP BY Rtg.Nazwa_badania, Pacjenci.PESEL, Rtg.Id_badanie
+ORDER BY Rtg.Id_badanie;
+
+
+-- 4
+SELECT Pacjenci.Plec, Count(Pacjenci.Plec) AS PoliczOfPlec
+FROM Pacjenci
+GROUP BY Pacjenci.Plec;
+
+
+-- 5
+SELECT Left([Pacjenci].[PESEL],1) AS Wyr1, Count(Pacjenci.PESEL) AS PoliczOfPESEL
+FROM Pacjenci
+GROUP BY Left([Pacjenci].[PESEL],1);
+
+
