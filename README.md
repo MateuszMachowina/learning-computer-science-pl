@@ -1,9 +1,22 @@
-# Exercises Solutions – Computer Science
+# Exercises Solved in Python, SQL and Excel
 
-This documentation is part of my learning journey in computer science and it is entirely in Polish language.  
+This repository contains a variety of **exercises** that I have solved using **Python**, **SQL** and **Excel**. 
+The solutions are part of my computer science learning journey and are written in **Polish**.
 
-The exercises come from the official CKE task collection, which can be downloaded as a PDF:
+## 📚 What’s Inside:
+- **Python**: Solved problems and algorithms
+- **SQL**: Database queries, data manipulation, and more
+- **Excel**: Data analysis, formulas, and Excel-specific tasks
 
-[Zbiór zadań CKE – Matura Informatyka (PDF)](https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Materialy/Zbiory_zadan/Matura_Zbi%C3%B3r_zada%C5%84_Informatyka.pdf)
+Additionally, the `algorytmy-python` folder contains various **Python algorithms**, including **mathematical** ones and others.
 
-Additionally, the `algorytmy-python` folder contains various Python algorithms, including mathematical ones and more.
+## 📄 Exercises:
+These exercises come from the official CKE (Central Examination Board) task collection, which can be downloaded as a PDF:
+
+[Download PDF of CKE Tasks](https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Materialy/Zbiory_zadan/Matura_Zbi%C3%B3r_zada%C5%84_Informatyka.pdf)
+
+## ⚙️ Technologies Used
+- **Python**: For problem-solving and algorithm implementation.
+- **SQL**: For database-related tasks and queries.
+- **Excel**: For data manipulation and calculations.
+
