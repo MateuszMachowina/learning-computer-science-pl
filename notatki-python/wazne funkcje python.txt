@@ -1,0 +1,48 @@
+.split()	#rozdziela string w miejscu spacji lub znaku ktory wskazemy
+.strip()	#usuwa znaki biale(/n), a jezeli damy cos w nawiasy to to usunie
+.append()	#dodaje cos co jest w nawiasach jako kolejny element tablicy
+.extend()	#rozszerza tablice o np. elementy innej tablicy ktora damy w nawiasach
+continue	#pomija jeden obrót pętli
+break		#wychodzi z jednej pętli
+print()		#printuje
+.readline()	#wczytuje cala linie z pliku
+return 		#zwraca
+ord()		#zwraca kod ascii odpowiadajacy znakowi w nawiasach
+chr()		#zwraca charakter odp. kodu ascii w nawiasach
+int()		#integrer
+float()		#float
+str()		#string
+len()		#dlugosc 
+min()		#min z listy
+max()		#max z listy
+sorted()	#sortuje liste rosnaco, list=sorted(list)
+sum()		#sumuje elementy listy
+.lower() 	#z duzych na male litery
+.upper()	#z malych na duze litery
+.remove()	#usuwa element z listy
+.count()	#liczy elementy spelniajace warunek w liscie
+.insert(0,x)	#wciska x na 0 miejsce, ( new_list = [x] + stara_lista ) <- tak tez dziala
+' '.join("elo", "520")	#dodaje po kolei elementy listy do stringa
+a**n 		#a do do potegi n, np a**3=a*a*a
+a%n == 0	#a podzielne przez n
+a,b = b,a	#zamienia miejsca a z b
+
+lista = [int(x) for x in tekst]
+lista = [i for i in range(10)]
+print(f"{zmienna} tekst zwykły")
+
+lista[start:stop:step]	
+a = [1,2,3,4,5]
+a[::2] ==> [1, 3, 5]
+a[::-1] ==> [5,4,3,2,1]
+
+import math
+math.fabs(x) - Zwraca moduł (wartość bezwzględną) argumentu x.
+math.pow(x, y) - Zwraca wartość x**y.
+math.sqrt(x) - Zwraca pierwiastek kwadratowy argumentu x.
+math.gcd(a,b) - NWD(a,b)
+
+oct()   - z 10 na 8                            #print((hex(16689))[2:]) bo pierwsze dwa znaki oznaczaja system
+hex()   - z 10 na 16
+bin()   - z 10 na 2
+int('liczba',system))   - z dowolnego na 10    #np. print(int('11',17))
