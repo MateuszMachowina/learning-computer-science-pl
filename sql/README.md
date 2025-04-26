@@ -1,4 +1,4 @@
-# SQL Exercises
+# 🔑 SQL Exercises
 
 This folder contains a collection of **solved exercises** using **SQL**. These exercises are part of my learning journey, focusing on **database queries** and **data manipulation**.
 
