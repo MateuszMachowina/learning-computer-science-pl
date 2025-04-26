@@ -1,4 +1,4 @@
-# Exercises Solved in Python, SQL and Excel
+# 👨‍💻 Exercises Solved in Python, SQL and Excel
 
 This repository contains a variety of **exercises** that I have solved using **Python**, **SQL** and **Excel**. 
 The solutions are part of my computer science learning journey and are written in **Polish**.
