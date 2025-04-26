@@ -1,4 +1,4 @@
-# Python Exercises
+# 🐍 Python Exercises
 
 This folder contains a collection of **solved exercises** using **Python**. These exercises are part of my learning journey and focus on algorithmic problem-solving.
 
