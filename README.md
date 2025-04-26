@@ -8,7 +8,7 @@ The solutions are part of my computer science learning journey and are written i
 - **SQL**: Database queries, data manipulation, and more
 - **Excel**: Data analysis, formulas, and Excel-specific tasks
 
-Additionally, the `algorytmy-python` folder contains various **Python algorithms**, including **mathematical** ones and others.
+Additionally, the `algorytmy-python` folder features a collection of Python algorithms, covering areas such as mathematical computations, sorting techniques, searching algorithms and numerical methods.
 
 ## 📄 Exercises:
 These exercises come from the official CKE (Central Examination Board) task collection, which can be downloaded as a PDF:
