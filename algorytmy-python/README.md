@@ -1,4 +1,4 @@
-# Python Algorithms
+# 🐍 Python Algorithms
 
 This folder contains a collection of **Python algorithms** that I have implemented as part of my learning journey. These algorithms were written after gaining an understanding of their logic and functionality, with guidance from my supervisor.
 The algorithms cover various topics such as **searching**, **sorting**, **number theory** and **numerical methods**.
