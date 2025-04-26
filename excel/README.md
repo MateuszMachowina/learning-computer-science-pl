@@ -1,4 +1,4 @@
-# Excel Exercises
+# 🔢 Excel Exercises
 
 This folder contains a collection of **solved exercises** using **Excel**. The focus is on **data analysis**, **formulas** and various Excel-specific tasks.
 
